@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="LabLayout" default="run" basedir=".">
     <property name="xlet.entrypoint" value="MainXlet"/>
+    <property name="root.lib.dir" value="/development/tvdigital/astrobox/AstroBox"/>
+    <property name="app.dir" value="/development/tvdigital/app"/>
+    <property name="pack.dir" value="/development/tvdigital/pack"/>
 
-    <description>Builds, tests, and runs the project.</description>
     <target name="init" depends="compile"/>
     
     <target name="compile">
@@ -10,17 +12,17 @@
         <javac destdir="build" target="1.3" source="1.3">
             <bootclasspath>
                 <filelist>
-                    <file name="/usr/bin/AstroBox/lib/basis.jar"/>
+                    <file name="${root.lib.dir}/lib/basis.jar"/>
                 </filelist>
             </bootclasspath>
             <classpath>
                 <filelist>
-                    <file name="/usr/bin/AstroBox/lib/charsets.jar"/>
-                    <file name="/usr/bin/AstroBox/lib/jce.jar"/>
-                    <file name="/usr/bin/AstroBox/lib/jsse-cdc.jar"/>
-                    <file name="/usr/bin/AstroBox/localedata.jar"/>
-                    <file name="/usr/bin/AstroBox/lib/sunrsasign.jar"/>
-                    <file name="/usr/bin/AstroBox/bin/java/astro.jar"/>
+                    <file name="${root.lib.dir}/lib/charsets.jar"/>
+                    <file name="${root.lib.dir}/lib/jce.jar"/>
+                    <file name="${root.lib.dir}/lib/jsse-cdc.jar"/>
+                    <file name="${root.lib.dir}/localedata.jar"/>
+                    <file name="${root.lib.dir}/lib/sunrsasign.jar"/>
+                    <file name="${root.lib.dir}/bin/java/astro.jar"/>
                 </filelist>  
             </classpath>
             <src path="src"/>
@@ -29,35 +31,32 @@
     
     <target depends="init,compile" description="Deploys Xlet files into the Ginga-J emulator" name="deploy">
         <delete>
-            <fileset dir="/usr/bin/AstroBox/bin/app/"/>    
+            <fileset dir="${app.dir}"/>    
         </delete>
-        <copy todir="/usr/bin/AstroBox/bin/app">
+        <copy todir="${app.dir}">
            <fileset dir="build/"/>    
         </copy>
-        <copy todir="/usr/bin/AstroBox/bin/app">
+        <copy todir="${app.dir}">
            <fileset dir="src/" excludes="*.java"/>    
         </copy>
     </target>
 
     <target depends="init,compile" description="Packs Xlet into zip file" name="pack">
-        <zip zipfile="/tmp/${ant.project.name}.zip">
+        <zip zipfile="${pack.dir}/${ant.project.name}.zip">
             <zipfileset dir="build/" />
             <zipfileset dir="src/" excludes="*.java"/>    
         </zip>
     </target>
 
     <target depends="init" description="Stops Ginga-J emulator" name="stop">
-    	<exec executable="pkill">
-    		<arg value="-f"/>
-    		<arg value="platEmul"/>
-    	</exec>
+        <exec executable="/development/tvdigital/bin/stop.sh">
+		</exec>
     </target>
 
     <target depends="init,compile,stop,deploy,pack,clean" description="Run Xlet in Ginga-J emulator" name="run">
-        <exec executable="./sitools-java-config">
+        <exec executable="/development/tvdigital/bin/run.sh">
             <arg value="${xlet.entrypoint}"/>
         </exec>
-        <exec executable="/usr/bin/AstroBox-emul" /> 
     </target>
 
     <target depends="init" description="Cleans the build" name="clean">

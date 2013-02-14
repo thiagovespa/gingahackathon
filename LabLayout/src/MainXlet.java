@@ -10,6 +10,7 @@ import com.sun.dtv.lwuit.layouts.BorderLayout;
 import com.sun.dtv.lwuit.layouts.BoxLayout;
 import com.sun.dtv.lwuit.layouts.CoordinateLayout;
 import com.sun.dtv.lwuit.layouts.FlowLayout;
+import com.sun.dtv.lwuit.layouts.GridLayout;
 import com.sun.dtv.lwuit.layouts.GroupLayout;
 
 /**
@@ -35,6 +36,7 @@ public class MainXlet implements Xlet {
 		//BoxLayout layout = new BoxLayout(BoxLayout.Y_AXIS);
 		//FlowLayout layout = new FlowLayout();
 		//FlowLayout layout = new FlowLayout(Component.RIGHT);
+		//GridLayout layout = new GridLayout(0, 2);
 		//GroupLayout layout = new GroupLayout(f);
 		//CoordinateLayout layout = new CoordinateLayout(200,100);
 
