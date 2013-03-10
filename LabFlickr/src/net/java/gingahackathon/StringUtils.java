@@ -1,6 +1,7 @@
 package net.java.gingahackathon;
 
 
+import java.io.UnsupportedEncodingException;
 import java.util.Vector;
 
 public final class StringUtils {
@@ -28,4 +29,24 @@ public final class StringUtils {
 
 		return result;
 	}
+	
+	public static String unescapeJS(String vl) {
+		try {
+			return java.net.URLDecoder.decode(vl,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// This should never happen
+			e.printStackTrace();
+		}
+		return "Unsupported UTF-8: " + vl;
+	}
+	public static String escapeJS(String vl) {
+		try {
+			return java.net.URLEncoder.encode(vl,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// This should never happen
+			e.printStackTrace();
+		}
+		return "Unsupported UTF-8: " + vl;
+	}
+
 }
