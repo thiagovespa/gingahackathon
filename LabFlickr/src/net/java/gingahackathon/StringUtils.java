@@ -345,13 +345,21 @@ public final class StringUtils {
 		StringBuffer sb = new StringBuffer();
 		int idxStr = 0;
 		while((idxEntity=content.indexOf("&",idxEntity))>=0) {
-			int lastIdxEntity = content.indexOf(";",idxEntity); 
-			sb.append(content.substring(idxStr+1,idxEntity));
+			int lastIdxEntity = content.indexOf(";",idxEntity);
+			if(lastIdxEntity<0) {
+				
+				break;
+			}
+			if(idxStr>0) {
+				sb.append(content.substring(idxStr+1,idxEntity));
+			}
 			String valueToTranslate = content.substring(idxEntity+1, lastIdxEntity);
 			sb.append(unescapeChar(valueToTranslate));
+
 			
 			idxEntity = lastIdxEntity;
 			idxStr = idxEntity;
+
 		}
 		sb.append(content.substring(idxStr));
 		return sb.toString();
